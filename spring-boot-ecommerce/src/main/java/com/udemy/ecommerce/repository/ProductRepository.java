@@ -14,5 +14,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     // query method to match by category id , using the parameter value
     // http://localhost:8080/api/products/search/findByCategoryId?id=2
+    //Behind the scenes, Spring will execute a query similar to this
+    // SELECT * FROM product where category_id=?;
     Page<Product> findByCategoryId(@Param("id") Long id, Pageable pageable);
 }
