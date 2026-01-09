@@ -6,7 +6,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { ProductService } from './services/product.service';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), 
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
     provideHttpClient(),
     ProductService 
