@@ -5,6 +5,7 @@ import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-list',
+  standalone: true,
   imports: [NgFor, CurrencyPipe],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
