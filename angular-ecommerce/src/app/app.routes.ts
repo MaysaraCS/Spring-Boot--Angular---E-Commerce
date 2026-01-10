@@ -20,6 +20,10 @@ export const routes: Routes = [
         path: 'products', 
         component: ProductListComponent
     },
+        {
+            path: 'search/:keyword', 
+            component: ProductListComponent
+        },
     {
         path: '**', 
         redirectTo: '/products', 

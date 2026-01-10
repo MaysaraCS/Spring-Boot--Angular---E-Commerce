@@ -17,4 +17,13 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     //Behind the scenes, Spring will execute a query similar to this
     // SELECT * FROM product where category_id=?;
     Page<Product> findByCategoryId(@Param("id") Long id, Pageable pageable);
+
+    // findByNameContaining =  Containing" ... similar to SQL: "LIKE"
+    //Behind the scenes, Spring will execute a query similar to this
+    //SELECT * FROM Product p
+    //WHERE
+    //p.name LIKE CONCAT('%', :name ,'%')
+    // http://localhost:8080/api/products/search/findByNameContainingIgnoreCase?name=Python
+    // to pass data to rest api
+    Page<Product> findByNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
 }

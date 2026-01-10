@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../common/product';
-import { CurrencyPipe, NgFor } from '@angular/common';
+import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [NgFor, CurrencyPipe],
+  imports: [NgFor, CurrencyPipe, NgIf],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit {
 
-
   products: Product[] = [];
   currentCategoryId: number = 1;
   currentCategoryName: string = "";
+  searchMode: boolean = false;
 
   constructor(
     private productService: ProductService,
@@ -30,6 +30,17 @@ export class ProductListComponent implements OnInit {
   }
 
   listProducts() {
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+
+    if (this.searchMode) {
+    this.handleSearchProducts();
+    }
+    else {
+      this.handleListProducts();
+    }
+  }
+
+  handleListProducts() {
     // check if "id" parameter is available
     // route = use the Activated Route
     // snapshot =  State of route at this given moment in time 
@@ -55,4 +66,15 @@ export class ProductListComponent implements OnInit {
     );
   }
 
+  handleSearchProducts() {
+
+    const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
+
+    // now search for the products using keyword
+    this.productService.searchProducts(theKeyword).subscribe(
+      data => {
+        this.products = data;
+      }
+    );
+  }
 }
