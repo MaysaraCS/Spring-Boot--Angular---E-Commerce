@@ -9,7 +9,7 @@ export const routes: Routes = [
         pathMatch: 'full'
     },
     {
-        path: 'category/:id', 
+        path: 'category/:id/:name', 
         component: ProductListComponent
     },
     {
