@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../../common/product';
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { ProductService } from '../../services/product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [NgFor, CurrencyPipe, NgIf],
+  imports: [NgFor, CurrencyPipe, NgIf, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
