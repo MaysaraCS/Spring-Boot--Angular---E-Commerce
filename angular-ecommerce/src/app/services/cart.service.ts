@@ -22,18 +22,18 @@ export class CartService {
     // check if we already have the item in our cart
 
     let alreadyExistsInCart: boolean = false;
-    let existingCartItem: CartItem = undefined!;
+    let existingCartItem: CartItem | undefined;
     
     if(this.cartItem.length > 0) {
     // find the item in the cart based on item id
     // find return the first matching element , else returns undefined
     // test condition ->>> tempCartItem.id === theCartItem.id executes test for each element until a match is found
     // tempCartItem current array element being processed
-      existingCartItem = this.cartItem.find( tempCartItem => tempCartItem.id === theCartItem.id )!;
+      existingCartItem = this.cartItem.find( tempCartItem => tempCartItem.id === theCartItem.id );
       // check if we found it 
-      alreadyExistsInCart = (existingCartItem != undefined);
+      //alreadyExistsInCart = (existingCartItem != undefined);
   }
-  if(alreadyExistsInCart) {
+  if(existingCartItem != undefined) {
       // increment the quantity
       existingCartItem.quantity++;
     } else {
@@ -48,6 +48,10 @@ export class CartService {
     let totalQuantityValue: number = 0;
 
     for(let currentCartItem of this.cartItem) {
+      // price of one item -> currentCartItem.unitPrice 
+      // how many of that item -> currentCartItem.quantity
+      // += means add and assign
+      // subtotal goes to totalPriceValue
       totalPriceValue += currentCartItem.unitPrice * currentCartItem.quantity;
       totalQuantityValue += currentCartItem.quantity;
     }
