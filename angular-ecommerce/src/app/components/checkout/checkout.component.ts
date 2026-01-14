@@ -1,10 +1,11 @@
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Luv2ShopFormService } from '../../services/luv2-shop-form.service';
 
 @Component({
   selector: 'app-checkout',
-  imports: [ReactiveFormsModule, CommonModule, CurrencyPipe],
+  imports: [ReactiveFormsModule, CommonModule, CurrencyPipe,NgFor],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -15,7 +16,10 @@ export class CheckoutComponent implements OnInit{
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
-  constructor(private formBuilder:FormBuilder) { }
+  creditCardYears: number[] = []; 
+  creditCardMonths: number[] = [];
+
+  constructor(private formBuilder:FormBuilder, private luv2ShopFormService:Luv2ShopFormService) { }
   ngOnInit(): void {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -46,6 +50,21 @@ export class CheckoutComponent implements OnInit{
         expirationYear: ['']
       })
     });
+
+     // populate credit card months
+     const startMonth: number = new Date().getMonth() + 1;
+     console.log("startMonth: " + startMonth);
+
+     this.luv2ShopFormService.getCreditCardMonths(startMonth).subscribe(
+      data => {
+      console.log("Retrieved credit card months: " + JSON.stringify(data));
+      this.creditCardMonths = data;
+    });
+    // populate credit card years
+    this.luv2ShopFormService.getCreditCardYears().subscribe(data => {
+      console.log("Retrieved credit card years: " + JSON.stringify(data));
+      this.creditCardYears = data;
+    });
   }
   copyShippingToBilling(event: any) {
     if (event.target.checked) {
@@ -54,6 +73,29 @@ export class CheckoutComponent implements OnInit{
     } else {
       this.checkoutFormGroup.controls['billingAddress'].reset();
     }
+  }
+  handleMonthsAndYears(){
+    const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
+
+    const currentYear: number = new Date().getFullYear();
+    // Read the selected year from the form
+    const selectedYear: number = Number(creditCardFormGroup?.value.expirationYear);
+
+    // if the current year equals the selected year, then start with current month 
+    let startMonth: number;
+    if (currentYear === selectedYear) {
+      // +1 to get the current month (0 based index) 
+      startMonth = new Date().getMonth() + 1;
+    } else {
+      startMonth = 1;
+    }
+    // Get the credit card months
+    this.luv2ShopFormService.getCreditCardMonths(startMonth).subscribe(
+      data => {
+        console.log("Retrieved credit card months: " + JSON.stringify(data));
+        this.creditCardMonths = data;
+      }
+    );
   }
   onSubmit(){
     console.log("Handling the submit button");
