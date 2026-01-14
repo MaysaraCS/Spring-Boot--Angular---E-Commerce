@@ -6,7 +6,7 @@ import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-cart-details',
-  imports: [NgIf, NgFor, CurrencyPipe],
+  imports: [NgIf, NgFor, CurrencyPipe, RouterLink],
   templateUrl: './cart-details.component.html',
   styleUrl: './cart-details.component.css'
 })
