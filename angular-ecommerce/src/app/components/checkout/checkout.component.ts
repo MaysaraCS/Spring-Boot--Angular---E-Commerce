@@ -5,6 +5,7 @@ import { Luv2ShopFormService } from '../../services/luv2-shop-form.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { Luv2ShopValidators } from '../../validators/luv2-shop-validators';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -27,8 +28,14 @@ export class CheckoutComponent implements OnInit{
   shippingAddressStates: State[] = []; 
   billingAddressStates: State[] = [];
 
-  constructor(private formBuilder:FormBuilder, private luv2ShopFormService:Luv2ShopFormService) { }
+  constructor(
+    private formBuilder:FormBuilder, 
+    private luv2ShopFormService:Luv2ShopFormService,
+    private cartService: CartService
+  ) { }
   ngOnInit(): void {
+
+    this.reviewCartDetails();
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
 
@@ -114,6 +121,16 @@ export class CheckoutComponent implements OnInit{
       console.log("Retrieved countries: " + JSON.stringify(data));
       this.countries = data;
     });
+  }
+  reviewCartDetails() {
+    // subscribe to cart totalQuantity
+    this.cartService.totalQuantity.subscribe(
+      totalQuantity => this.totalQuantity = totalQuantity
+    );
+    // subscribe to cart totalPrice
+    this.cartService.totalPrice.subscribe(
+      totalPrice => this.totalPrice = totalPrice
+    );
   }
   get firstName() { 
     return this.checkoutFormGroup.get('customer.firstName'); 
