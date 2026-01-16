@@ -5,9 +5,9 @@ import com.udemy.ecommerce.dto.PurchaseResponse;
 import com.udemy.ecommerce.entity.Customer;
 import com.udemy.ecommerce.entity.Order;
 import com.udemy.ecommerce.entity.OrderItem;
+import com.udemy.ecommerce.entity.Address;
 import com.udemy.ecommerce.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -18,33 +18,45 @@ public class CheckoutServiceImpl implements CheckoutService{
 
     private CustomerRepository customerRepository;
 
-    //@Autowired is optional here since we only have one constructor
     public CheckoutServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
+
     @Override
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
-        // retrive the order from the database
+        // retrieve the order from dto
         Order order = purchase.getOrder();
 
-        // generate a tracking number for the order
+        // generate tracking number
         String orderTrackingNumber = generateOrderTrackingNumber();
         order.setOrderTrackingNumber(orderTrackingNumber);
 
-        // populate order with order items
+        // populate order with orderItems
         Set<OrderItem> orderItems = purchase.getOrderItems();
         orderItems.forEach(item -> order.add(item));
 
-        // populate order with billing address and shipping address
-        order.setBillingAddress(purchase.getBillingAddress());
-        order.setShippingAddress(purchase.getShippingAddress());
+        // get addresses from purchase
+        Address shippingAddress = purchase.getShippingAddress();
+        Address billingAddress = purchase.getBillingAddress();
+
+        // SOLUTION: Check if billing and shipping addresses are the same
+        // If they are the same, use the same reference instead of creating duplicates
+        if (addressesAreEqual(shippingAddress, billingAddress)) {
+            // Use the same address object for both to prevent duplication
+            order.setShippingAddress(shippingAddress);
+            order.setBillingAddress(shippingAddress); // Same reference
+        } else {
+            // Different addresses, set them separately
+            order.setShippingAddress(shippingAddress);
+            order.setBillingAddress(billingAddress);
+        }
 
         // populate customer with order
         Customer customer = purchase.getCustomer();
         customer.add(order);
 
-        // save the order to the database
+        // save to database (cascading will handle addresses)
         customerRepository.save(customer);
 
         // return response
@@ -52,8 +64,25 @@ public class CheckoutServiceImpl implements CheckoutService{
     }
 
     private String generateOrderTrackingNumber() {
-        // generate a random UUID tracking number
-
+        // generate a random UUID number (UUID version-4)
         return UUID.randomUUID().toString();
+    }
+
+    /**
+     * Helper method to check if two addresses are equal based on content
+     * @param address1 First address to compare
+     * @param address2 Second address to compare
+     * @return true if addresses have same content, false otherwise
+     */
+    private boolean addressesAreEqual(Address address1, Address address2) {
+        if (address1 == null && address2 == null) {
+            return true;
+        }
+        if (address1 == null || address2 == null) {
+            return false;
+        }
+
+        // Compare all address fields
+        return address1.equals(address2);
     }
 }

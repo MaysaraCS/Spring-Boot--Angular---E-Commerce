@@ -791,14 +791,43 @@ table.table.table-bordered th {
 
 /* 
  * ----------------------------
- * Buttons
+ * Buttons - UPDATED
  * ----------------------------
  */
 
 .btn-info {
     color: #fff;
     background-color: #0da8e4 !important;
-    border-color: #0da8e4 !important
+    border-color: #0da8e4 !important;
+}
+
+/* Fix for primary buttons - make them blue by default */
+.btn-primary {
+    color: #fff !important;
+    background-color: #0da8e4 !important;
+    border-color: #0da8e4 !important;
+    transition: all 0.3s ease;
+}
+
+/* Hover state - darker blue */
+.btn-primary:hover {
+    background-color: #0891c9 !important;
+    border-color: #0891c9 !important;
+    color: #fff !important;
+}
+
+/* Active/Focus states */
+.btn-primary:active,
+.btn-primary:focus {
+    background-color: #0779a8 !important;
+    border-color: #0779a8 !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 168, 228, 0.5) !important;
+}
+
+/* Small button variant */
+.btn-primary.btn-sm {
+    padding: 5px 10px;
+    font-size: 14px;
 }
 
 a.primary-btn {
@@ -809,18 +838,18 @@ a.primary-btn {
     color: #fff;
     border-radius: 2px;
     font-size: 14px;
-    margin-top: 5px
+    margin-top: 5px;
+    transition: all 0.3s ease;
 }
 
 a.primary-btn:hover {
     background: #0da8e4;
-    color: #fff
+    color: #fff;
 }
 
 .active-link {
     font-weight: bold;
 }
-
 /* 
  * ----------------------------
  * Footer section
