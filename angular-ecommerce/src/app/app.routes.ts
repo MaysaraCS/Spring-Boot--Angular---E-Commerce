@@ -3,9 +3,9 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 export const routes: Routes = [
-
     {
         path: '', 
         redirectTo: '/products', 
@@ -37,7 +37,8 @@ export const routes: Routes = [
     },
     {
         path: 'checkout', 
-        component: CheckoutComponent
+        component: CheckoutComponent,
+        canActivate: [AuthGuard] // Protected route example
     },
     {
         path: '**', 

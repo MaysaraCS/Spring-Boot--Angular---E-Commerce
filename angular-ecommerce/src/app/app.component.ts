@@ -5,6 +5,7 @@ import { SearchComponent } from './components/search/search.component';
 import { NgbAccordionModule, NgbAlertModule, NgbCarouselModule, NgbModule, NgbPaginationModule,  } from '@ng-bootstrap/ng-bootstrap';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginStatusComponent } from './components/login-status/login-status.component';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [RouterOutlet, ProductCategoryMenuComponent, SearchComponent,
     NgbModule,NgbAccordionModule,NgbAlertModule,NgbCarouselModule,
     NgbPaginationModule,CartStatusComponent, 
-    RouterLink,ReactiveFormsModule],
+    RouterLink,ReactiveFormsModule,LoginStatusComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   standalone: true
