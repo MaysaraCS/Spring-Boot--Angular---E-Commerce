@@ -4,6 +4,7 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { MembersPageComponent } from './components/members-page/members-page.component';
 
 export const routes: Routes = [
     {
@@ -38,6 +39,11 @@ export const routes: Routes = [
     {
         path: 'checkout', 
         component: CheckoutComponent,
+        canActivate: [AuthGuard] // Protected route example
+    },
+    {
+        path: 'members', 
+        component: MembersPageComponent,
         canActivate: [AuthGuard] // Protected route example
     },
     {

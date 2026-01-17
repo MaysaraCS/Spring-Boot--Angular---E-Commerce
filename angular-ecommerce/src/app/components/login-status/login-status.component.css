@@ -12,7 +12,16 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 43px;
-    background: #205b8d
+    background: #205b8d;
+    white-space: nowrap;
+    /* Prevent button text from wrapping */
+    padding: 0 15px;
+    /* Add horizontal padding for better spacing */
+}
+
+.security-btn:hover {
+    background: #05143f;
+    border-color: #05143f;
 }
 
 /*
@@ -24,7 +33,31 @@
     display: -webkit-flex;
     display: -moz-box;
     display: -ms-flexbox;
-    display: flex
+    display: flex;
+    align-items: center;
+    /* Vertically align items */
+    gap: 15px;
+    /* Modern way to add spacing between flex items */
+    flex-wrap: nowrap;
+    /* Prevent wrapping on large screens */
+}
+
+/* Large screens - more spacing and larger buttons */
+@media (min-width: 1600px) {
+    .login-status-header {
+        gap: 20px;
+    }
+
+    .security-btn {
+        min-width: 110px;
+        padding: 0 20px;
+        font-size: 15px;
+    }
+
+    .login-status-user-info {
+        padding: 0 25px;
+        font-size: 15px;
+    }
 }
 
 /*
@@ -42,5 +75,27 @@
     -webkit-transition: all .5s ease;
     -o-transition: all .5s ease;
     -moz-transition: all .5s ease;
-    transition: all .5s ease
+    transition: all .5s ease;
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 991px) {
+    .login-status-header {
+        flex-wrap: wrap;
+        /* Allow wrapping on small screens */
+        justify-content: center;
+    }
+
+    .security-btn {
+        margin: 5px;
+        min-width: 80px;
+    }
+
+    .login-status-user-info {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
 }
