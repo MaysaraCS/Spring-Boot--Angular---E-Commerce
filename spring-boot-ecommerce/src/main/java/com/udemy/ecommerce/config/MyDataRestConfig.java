@@ -7,6 +7,7 @@ import com.udemy.ecommerce.entity.State;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;  // ← CORRECT IMPORT
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -21,6 +22,9 @@ import java.util.Set;
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
+    @Value( "${allowed.origins}")
+    private String[] theAllowedOrigins;
+
     private EntityManager entityManager;
 
     @Autowired
@@ -32,7 +36,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
         // set up an array of methods to say these are the unsupported actions
-        HttpMethod[] unsupportedMethods = {HttpMethod.PUT,HttpMethod.POST, HttpMethod.DELETE};
+        HttpMethod[] unsupportedMethods = {HttpMethod.PUT,HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH};
 
         // disable Http Methods for Product class
         desableHttpMethods(Product.class,config, unsupportedMethods);
@@ -47,6 +51,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         desableHttpMethods(State.class,config, unsupportedMethods);
 
         exposeIds(config);
+
+        // configure CORS mapping
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
     }
     // disable the PUT, POST and DELETE methods
     private void desableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] unsupportedMethods) {
