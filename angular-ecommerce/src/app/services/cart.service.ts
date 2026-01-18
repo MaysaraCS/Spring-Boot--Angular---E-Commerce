@@ -10,8 +10,8 @@ export class CartService {
   cartItem: CartItem[] = [];
 
   // sessionStorage = Reference to web browser's session storage 
-  //storage : Storage = sessionStorage;
-  storage : Storage = localStorage;
+  storage : Storage = sessionStorage;
+  //storage : Storage = localStorage;
 
   // Subject is a subclass of Observable
   // We can use Subject to publish events in our code.

@@ -5,6 +5,7 @@ import com.udemy.ecommerce.entity.Product;
 import com.udemy.ecommerce.entity.ProductCategory;
 import com.udemy.ecommerce.entity.State;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.Order;
 import jakarta.persistence.metamodel.EntityType;  // ← CORRECT IMPORT
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         // disable Http Methods for State
         desableHttpMethods(State.class,config, unsupportedMethods);
+
+        // disable Http Methods for Order
+        desableHttpMethods(Order.class,config, unsupportedMethods);
 
         exposeIds(config);
 
