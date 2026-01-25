@@ -50,3 +50,11 @@ Thumbs.db
 
 # Keep the template
 !/src/environments/environment.template.ts
+
+#(IMPORTANT: Never commit these!) 
+ssl-localhost/
+*.kek 
+*.crt 
+*.pem 
+*.p12 
+*.pfx

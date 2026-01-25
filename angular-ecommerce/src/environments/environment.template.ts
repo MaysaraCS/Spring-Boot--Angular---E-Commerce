@@ -12,5 +12,6 @@ export const environment = {
     useRefreshTokens: true,
     // Store tokens in localStorage for persistence across sessions
     cacheLocation: 'localstorage' as const
-  }
+  },
+  stripePublishableKey:""
 };
